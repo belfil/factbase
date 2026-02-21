@@ -361,7 +361,7 @@ class TestQuery < Factbase::Test
   # ```
   # It needs investigation.
   def test_txn_performance_degradation
-    skip('Flaky test, to be fixed later, see the puzzle above')
+    # skip('Flaky test, to be fixed later, see the puzzle above')
     size = 1000
     maps = (0..1000).map { |_i| { 'foo' => [rand(size)], 'bar' => [rand(size)], 'xyz' => [rand(size)] } }
     with_factbases(maps) do |badge, fb|
