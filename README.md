@@ -229,12 +229,12 @@ This is the result of the benchmark:
 query all facts from an empty factbase                             0.00
 insert 20000 facts                                                 0.65
 export 20000 facts                                                 0.02
-import 410680 bytes (20000 facts)                                  0.02
+import 410901 bytes (20000 facts)                                  0.01
 insert 10 facts                                                    0.04
-query 10 times w/txn                                               2.06
-query 10 times w/o txn                                             0.21
-modify 10 attrs w/txn                                              1.62
-delete 10 facts w/txn                                              2.98
+query 10 times w/txn                                               2.12
+query 10 times w/o txn                                             0.12
+modify 10 attrs w/txn                                              1.55
+delete 10 facts w/txn                                              2.95
 build index on 5000 facts                                          0.03
 export 5000 facts with index                                       0.04
 import 5000 facts with persisted index                             0.05
@@ -242,74 +242,74 @@ query 5000 facts using persisted index                             0.07
 export 5000 facts without index                                    0.00
 import 5000 facts without index                                    0.01
 query 5000 facts building index on-the-fly                         0.07
-query 15k facts  sel: 20%  card: 10  absent plain                  0.63
-query 15k facts  sel: 20%  card: 10  absent indexed(cold)          0.16
+query 15k facts  sel: 20%  card: 10  absent plain                  0.60
+query 15k facts  sel: 20%  card: 10  absent indexed(cold)          0.17
 query 15k facts  sel: 20%  card: 10  absent indexed(warm)          0.13
-query 15k facts  sel: 20%  card: 10  exists plain                  0.60
-query 15k facts  sel: 20%  card: 10  exists indexed(cold)          0.18
+query 15k facts  sel: 20%  card: 10  exists plain                  0.59
+query 15k facts  sel: 20%  card: 10  exists indexed(cold)          0.16
 query 15k facts  sel: 20%  card: 10  exists indexed(warm)          0.13
-query 15k facts  sel: 20%  card: 10  eq plain                      0.89
-query 15k facts  sel: 20%  card: 10  eq indexed(cold)              0.26
+query 15k facts  sel: 20%  card: 10  eq plain                      0.85
+query 15k facts  sel: 20%  card: 10  eq indexed(cold)              0.25
 query 15k facts  sel: 20%  card: 10  eq indexed(warm)              0.20
-query 15k facts  sel: 20%  card: 10  not plain                     1.14
-query 15k facts  sel: 20%  card: 10  not indexed(cold)             0.57
-query 15k facts  sel: 20%  card: 10  not indexed(warm)             0.48
-query 15k facts  sel: 20%  card: 10  gt plain                      0.88
-query 15k facts  sel: 20%  card: 10  gt indexed(cold)              0.29
-query 15k facts  sel: 20%  card: 10  gt indexed(warm)              0.24
-query 15k facts  sel: 20%  card: 10  lt plain                      0.90
-query 15k facts  sel: 20%  card: 10  lt indexed(cold)              0.28
-query 15k facts  sel: 20%  card: 10  lt indexed(warm)              0.20
-query 15k facts  sel: 20%  card: 10  and eq plain                  1.41
-query 15k facts  sel: 20%  card: 10  and eq indexed(cold)          0.89
-query 15k facts  sel: 20%  card: 10  and eq indexed(warm)          0.49
-query 15k facts  sel: 20%  card: 10  and complex plain             1.36
-query 15k facts  sel: 20%  card: 10  and complex indexed(cold)     0.51
-query 15k facts  sel: 20%  card: 10  and complex indexed(warm)     0.44
-query 15k facts  sel: 20%  card: 10  one plain                     0.75
-query 15k facts  sel: 20%  card: 10  one indexed(cold)             0.23
-query 15k facts  sel: 20%  card: 10  one indexed(warm)             0.15
-query 15k facts  sel: 20%  card: 10  or plain                      2.02
-query 15k facts  sel: 20%  card: 10  or indexed(cold)              0.45
-query 15k facts  sel: 20%  card: 10  or indexed(warm)              0.37
-query 15k facts  sel: 20%  card: 10  unique plain                  1.92
-query 15k facts  sel: 20%  card: 10  unique indexed(cold)          0.68
-query 15k facts  sel: 20%  card: 10  unique indexed(warm)          0.41
-(and (eq what 'issue-was-closed') (exists... -> 200                1.08
-(and (eq what 'issue-was-closed') (exists... -> 200/txn            1.25
-(and (eq what 'issue-was-closed') (exists... -> zero               1.09
-(and (eq what 'issue-was-closed') (exists... -> zero/txn           1.26
-transaction rollback on factbase with 100000 facts                 0.27
-(gt time '2024-03-23T03:21:43Z')                                   0.23
-(gt cost 50)                                                       0.10
+query 15k facts  sel: 20%  card: 10  not plain                     1.11
+query 15k facts  sel: 20%  card: 10  not indexed(cold)             0.50
+query 15k facts  sel: 20%  card: 10  not indexed(warm)             0.43
+query 15k facts  sel: 20%  card: 10  gt plain                      0.85
+query 15k facts  sel: 20%  card: 10  gt indexed(cold)              0.28
+query 15k facts  sel: 20%  card: 10  gt indexed(warm)              0.25
+query 15k facts  sel: 20%  card: 10  lt plain                      0.86
+query 15k facts  sel: 20%  card: 10  lt indexed(cold)              0.25
+query 15k facts  sel: 20%  card: 10  lt indexed(warm)              0.21
+query 15k facts  sel: 20%  card: 10  and eq plain                  1.36
+query 15k facts  sel: 20%  card: 10  and eq indexed(cold)          0.84
+query 15k facts  sel: 20%  card: 10  and eq indexed(warm)          0.47
+query 15k facts  sel: 20%  card: 10  and complex plain             1.30
+query 15k facts  sel: 20%  card: 10  and complex indexed(cold)     0.46
+query 15k facts  sel: 20%  card: 10  and complex indexed(warm)     0.42
+query 15k facts  sel: 20%  card: 10  one plain                     0.73
+query 15k facts  sel: 20%  card: 10  one indexed(cold)             0.19
+query 15k facts  sel: 20%  card: 10  one indexed(warm)             0.14
+query 15k facts  sel: 20%  card: 10  or plain                      1.94
+query 15k facts  sel: 20%  card: 10  or indexed(cold)              0.43
+query 15k facts  sel: 20%  card: 10  or indexed(warm)              0.30
+query 15k facts  sel: 20%  card: 10  unique plain                  1.79
+query 15k facts  sel: 20%  card: 10  unique indexed(cold)          0.63
+query 15k facts  sel: 20%  card: 10  unique indexed(warm)          0.39
+(and (eq what 'issue-was-closed') (exists... -> 200                1.11
+(and (eq what 'issue-was-closed') (exists... -> 200/txn            1.23
+(and (eq what 'issue-was-closed') (exists... -> zero               1.10
+(and (eq what 'issue-was-closed') (exists... -> zero/txn           1.25
+transaction rollback on factbase with 100000 facts                 0.26
+(gt time '2024-03-23T03:21:43Z')                                   0.22
+(gt cost 50)                                                       0.11
 (eq title 'Object Thinking 5000')                                  0.03
 (and (eq foo 42.998) (or (gt bar 200) (absent z...                 0.02
-(and (exists foo) (not (exists blue)))                             1.24
-(eq id (agg (always) (max id)))                                    2.84
-(join "c<=cost,b<=bar" (eq id (agg (always) (ma...                 4.47
-(and (eq what "foo") (join "w<=what" (and (eq i...                 7.05
+(and (exists foo) (not (exists blue)))                             1.17
+(eq id (agg (always) (max id)))                                    2.80
+(join "c<=cost,b<=bar" (eq id (agg (always) (ma...                 4.77
+(and (eq what "foo") (join "w<=what" (and (eq i...                 7.23
 delete!                                                            0.42
-(and (eq issue *) (eq repository *) (eq what '*') (eq where '*'))  0.26
-Taped.append() x50000                                              0.18
+(and (eq issue *) (eq repository *) (eq what '*') (eq where '*'))  0.37
+Taped.append() x50000                                              0.02
 Taped.each() x125                                                  1.12
-Taped.delete_if() x375                                             0.89
-50000 facts: plain read (no txn)                                   4.11
-50000 facts: read-only txn (no copy)                               5.00
+Taped.delete_if() x375                                             0.85
+50000 facts: plain read (no txn)                                   4.05
+50000 facts: read-only txn (no copy)                               4.84
 50000 facts: plain insert (no txn)                                 0.00
-50000 facts: insert in txn (copy triggered)                        3.54
-50000 facts: plain modify (no txn)                                28.62
-50000 facts: modify in txn (copy triggered)                       35.32
-100000 facts: plain read (no txn)                                  8.36
-100000 facts: read-only txn (no copy)                              9.82
+50000 facts: insert in txn (copy triggered)                        3.41
+50000 facts: plain modify (no txn)                                28.30
+50000 facts: modify in txn (copy triggered)                       35.66
+100000 facts: plain read (no txn)                                  8.01
+100000 facts: read-only txn (no copy)                              9.93
 100000 facts: plain insert (no txn)                                0.00
-100000 facts: insert in txn (copy triggered)                       7.32
-100000 facts: plain modify (no txn)                               57.62
-100000 facts: modify in txn (copy triggered)                      72.27
+100000 facts: insert in txn (copy triggered)                       7.04
+100000 facts: plain modify (no txn)                               56.64
+100000 facts: modify in txn (copy triggered)                      71.45
 ```
 
 The results were calculated in [this GHA job][benchmark-gha]
-on 2026-02-21 at 07:48,
+on 2026-02-21 at 09:21,
 on Linux with 4 CPUs.
 <!-- benchmark_end -->
 
-[benchmark-gha]: https://github.com/belfil/factbase/actions/runs/22252990612
+[benchmark-gha]: https://github.com/belfil/factbase/actions/runs/22254239527
