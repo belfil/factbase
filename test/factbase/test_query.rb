@@ -346,41 +346,32 @@ class TestQuery < Factbase::Test
     assert_includes(f.all_properties, 'foo')
   end
 
-  # @todo #330:90min Fix the flaky test 'test_txn_performance_degradation'.
-  # The 'test_txn_performance_degradation' sometimes fails, sometimes passes.
-  # The reason is not clear yet.
-  # I got the following error message:
-  # ```
-  #  In indexed+cached+rules+plain, the trend is up: 2.483, 2.567, 2.872,
-  #  2.785, 2.798, 2.895, 3.114, 3.152, 3.087, 3.094.
-  #  Expected 5 to be < 5.
-  #  test/factbase/test_query.rb:366:in 'block in TestQuery#test_txn_performance_degradation'
-  #  test/factbase/test_query.rb:496:in 'Hash#each'
-  #  test/factbase/test_query.rb:496:in 'TestQuery#with_factbases'
-  #  test/factbase/test_query.rb:352:in 'TestQuery#test_txn_performance_degradation'
-  # ```
-  # It needs investigation.
+  # This test ensures that the number of objects allocated during a transaction
+  # does not increase over time (no performance degradation).
   def test_txn_performance_degradation
-    skip('Flaky test, to be fixed later, see the puzzle above')
+    # The maximum allowed growth percentage for memory allocations (5 = 5%).
+    max_growth = 5
     size = 1000
-    maps = (0..1000).map { |_i| { 'foo' => [rand(size)], 'bar' => [rand(size)], 'xyz' => [rand(size)] } }
+    maps = (0..size).map { { 'foo' => [rand(size)], 'bar' => [rand(size)], 'xyz' => [rand(size)] } }
     with_factbases(maps) do |badge, fb|
-      times = []
-      10.times do |x|
-        fb.txn do |fbt|
-          start = Time.now
-          fbt.query("(and (eq foo #{x}) (eq bar #{x}) (eq xyz #{x}))").each.to_a
-          secs = Time.now - start
-          times << (secs * 1000)
+      # Warmup.
+      (1..10).each { |x| fb.query("(and (eq foo #{x}) (eq bar #{x}) (eq xyz #{x}))").each.to_a }
+      stats =
+        (1..10).map do |x|
+          before = GC.stat(:total_allocated_objects)
+          fb.txn { |fbt| fbt.query("(and (eq foo #{x}) (eq bar #{x}) (eq xyz #{x}))").each.to_a }
+          after = GC.stat(:total_allocated_objects)
+          after - before
         end
-      end
-      trend = 0
-      times.each_cons(2) do |a, b|
-        trend += b > a ? 1 : -1
-      end
-      assert_operator(
-        trend, :<, times.count / 2, "In #{badge}, the trend is up: #{times.map { |ms| format('%.3f', ms) }.join(', ')}"
-      )
+      # Split stats into two equal windows: left and right.
+      # If right avg is significantly higher than left avg, we have a regression.
+      half = stats.size / 2
+      l_avg = (stats.first(half).sum / half.to_f).round(2)
+      r_avg = (stats.last(half).sum / half.to_f).round(2)
+      # Calculate the actual growth percentage to make logs more informative.
+      # If l_avg is 100 and r_avg is 105, degradation will be 5.0%.
+      growth = (((r_avg / l_avg) - 1) * 100).round(2)
+      assert_operator(max_growth, :>=, growth, "In #{badge}. Growth #{growth}% Max #{max_growth}%. Stats: #{stats}")
     end
   end
 
